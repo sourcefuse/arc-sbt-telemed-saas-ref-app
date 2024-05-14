@@ -1,0 +1,7 @@
+// .eslintignore
+**/node_modules/*
+**/out/*
+**/.next/*
+next.config.js
+commitlint.config.js
+.cz-config.js
