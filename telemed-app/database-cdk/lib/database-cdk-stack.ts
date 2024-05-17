@@ -20,7 +20,7 @@ export class AuroraServerlessPostgresStack extends cdk.Stack {
         {
           cidrMask: 24,
           name: "Private",
-          subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
+          subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
         },
       ],
     });
@@ -36,7 +36,7 @@ export class AuroraServerlessPostgresStack extends cdk.Stack {
       }
     );
     securityGroup.addIngressRule(
-      ec2.Peer.anyIpv4(),
+      ec2.Peer.IpAddresses.cidr("10.0.0.0/16"),
       ec2.Port.tcp(5432),
       "Allow inbound traffic on port 5432 from any IP"
     );
@@ -60,18 +60,18 @@ export class AuroraServerlessPostgresStack extends cdk.Stack {
         "default.aurora-postgresql15"
       ),
       writer: rds.ClusterInstance.serverlessV2("writer", {
-        publiclyAccessible: true,
+        publiclyAccessible: false,
       }),
       readers: [
         rds.ClusterInstance.serverlessV2("reader1", {
-          publiclyAccessible: true,
+          publiclyAccessible: false,
         }),
         // rds.ClusterInstance.serverlessV2('reader2'),
       ],
       vpc,
       vpcSubnets: {
         // subnets: vpc.publicSubnets,
-        subnetType: ec2.SubnetType.PUBLIC,
+        subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
       },
       monitoringInterval: cdk.Duration.seconds(0),
       securityGroups: [securityGroup],
