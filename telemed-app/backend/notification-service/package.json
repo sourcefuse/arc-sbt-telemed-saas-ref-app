@@ -63,6 +63,7 @@
   ],
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.569.0",
+    "@aws-sdk/rds-signer": "^3.583.0",
     "@loopback/boot": "^6.1.5",
     "@loopback/context": "^6.1.5",
     "@loopback/core": "^5.1.5",

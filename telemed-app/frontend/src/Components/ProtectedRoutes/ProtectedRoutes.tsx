@@ -22,9 +22,12 @@ export const ProtectedRoutes = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const tokenNotExpired =
-        new Date(parseInt(localStorage.getItem("expires") ?? "0")) > new Date();
-      if (isLoggedIn && tokenNotExpired) {
+      const expiryTimeStamp = localStorage.getItem("expires");
+      const tokenExpired =
+        (expiryTimeStamp ? new Date(parseInt(expiryTimeStamp)) : 0) <
+        new Date();
+
+      if (isLoggedIn && !tokenExpired) {
         await dispatch(fetchUserData());
         setLoading(false);
       } else {

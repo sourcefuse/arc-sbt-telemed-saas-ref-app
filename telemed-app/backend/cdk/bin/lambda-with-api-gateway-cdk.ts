@@ -7,6 +7,10 @@ if (!process.env.SOURCE_CODE_PATH) {
   throw Error("SOURCE_CODE_PATH is required to deploy the lambda stack.");
 }
 
+if (!process.env.VPC_ID) {
+  throw Error("VPC_ID is required to deploy the service lambda stack.");
+}
+
 const app = new cdk.App();
 new LambdaStack(app, process.env.STACK_NAME ?? "LambdaStack", {
   env: {
@@ -17,6 +21,8 @@ new LambdaStack(app, process.env.STACK_NAME ?? "LambdaStack", {
   customDomainCertArn: process.env.CERTIFICATE_ARN ?? "",
   hostedZoneName: process.env.HOSTED_ZONE_NAME ?? "",
   absoluteCodePath: process.env.SOURCE_CODE_PATH ?? "",
+  secretArn: process.env.SECRET_ARN ?? null,
+  vpcId: process.env.VPC_ID,
   lambdaEnvs: process.env.LAMBDA_ENVS
     ? JSON.parse(process.env.LAMBDA_ENVS)
     : {},

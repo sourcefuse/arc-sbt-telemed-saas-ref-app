@@ -1,4 +1,3 @@
-import { getTenantSlug } from "../Helpers/utils";
 import { apiSlice } from "../redux/apiSlice";
 
 export interface Subscriber {
@@ -27,9 +26,6 @@ export const notificationApiSlice = apiSlice.injectEndpoints({
       query: ({ url, ...notification }) => ({
         url: `${url}/notifications`,
         method: "POST",
-        params: {
-          tenantSlug: getTenantSlug(),
-        },
         body: { ...notification },
       }),
     }),

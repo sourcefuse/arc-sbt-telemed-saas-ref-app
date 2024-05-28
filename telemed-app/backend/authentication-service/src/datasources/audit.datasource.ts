@@ -5,12 +5,14 @@ import {AuditDbSourceName} from '@sourceloop/audit-log';
 const config = {
   name: 'audit',
   connector: 'postgresql',
-  url: '',
-  host: '',
-  port: 0,
-  user: '',
-  password: '',
-  database: '',
+  debug: true,
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+  schema: process.env.DB_SCHEMA,
+  ssl: true,
 };
 
 // Observe application's life cycle to disconnect the datasource when
@@ -29,15 +31,6 @@ export class AuditDataSource
     @inject('datasources.config.audit', {optional: true})
     dsConfig: object = config,
   ) {
-    const auditEnvConfig = {
-      host: process.env.DB_HOST,
-      port: process.env.DB_PORT,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
-      schema: process.env.DB_SCHEMA,
-    };
-    Object.assign(dsConfig, auditEnvConfig);
     super(dsConfig);
   }
 }

@@ -3,16 +3,20 @@ import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as apigatewayv2 from "aws-cdk-lib/aws-apigatewayv2";
 import * as apigatewayv2Integrations from "aws-cdk-lib/aws-apigatewayv2-integrations";
 import * as path from "path";
+import * as ec2 from "aws-cdk-lib/aws-ec2";
 
 import * as route53 from "aws-cdk-lib/aws-route53";
 import * as certmgr from "aws-cdk-lib/aws-certificatemanager";
 import * as targets from "aws-cdk-lib/aws-route53-targets";
+import { Effect, PolicyStatement } from "aws-cdk-lib/aws-iam";
 
 export interface LambdaStackProps extends cdk.StackProps {
   hostedZoneName: string;
   customDomain: string;
   customDomainCertArn: string;
   absoluteCodePath: string;
+  secretArn: string | null;
+  vpcId: string;
   lambdaEnvs: { [key: string]: string };
 }
 
@@ -20,11 +24,14 @@ export class LambdaStack extends cdk.Stack {
   private lambdaFunction: cdk.aws_lambda.DockerImageFunction;
   private customDomainName?: cdk.aws_apigatewayv2.DomainName;
   private hostedZone?: cdk.aws_route53.IHostedZone;
+  private vpcId: string;
   private fullDomainName?: string;
   constructor(scope: cdk.App, id: string, props: LambdaStackProps) {
     super(scope, id, props);
+    this.vpcId = props.vpcId;
     const lambdaEnvs = props.lambdaEnvs;
     const codeDirectory = props.absoluteCodePath;
+    const secretArn = props.secretArn;
     const config = {
       domainName: props.customDomain,
       certificateArn: props.customDomainCertArn,
@@ -36,6 +43,38 @@ export class LambdaStack extends cdk.Stack {
 
     // Create the Lambda function using the Docker image from ECR
     this.createLambdaFunction(codeDirectory, lambdaEnvs);
+
+    if (secretArn) {
+      this.lambdaFunction.addToRolePolicy(
+        new PolicyStatement({
+          effect: Effect.ALLOW,
+          resources: [secretArn],
+          actions: ["secretsmanager:GetSecretValue"],
+        })
+      );
+
+      // grant the permission to create network interface for vpc access
+      this.lambdaFunction.addToRolePolicy(
+        new PolicyStatement({
+          effect: Effect.ALLOW,
+          resources: ["*"],
+          actions: [
+            "ec2:CreateNetworkInterface",
+            "ec2:DeleteNetworkInterface",
+            "ec2:DescribeNetworkInterfaces",
+          ],
+        })
+      );
+
+      // grant the permission to connect to rds proxy using iam authentication
+      this.lambdaFunction.addToRolePolicy(
+        new PolicyStatement({
+          effect: Effect.ALLOW,
+          resources: ["*"],
+          actions: ["rds-db:connect"],
+        })
+      );
+    }
 
     this.createHttpApiWithLambda(id, {
       certificateArn: config.certificateArn,
@@ -53,6 +92,10 @@ export class LambdaStack extends cdk.Stack {
     codeDirectory: string,
     lambdaEnvs?: { [key: string]: string }
   ) {
+    const vpc = ec2.Vpc.fromLookup(this, "LambdaVPC", {
+      vpcId: this.vpcId,
+    });
+
     this.lambdaFunction = new lambda.DockerImageFunction(
       this,
       "LambdaFunction",
@@ -65,6 +108,10 @@ export class LambdaStack extends cdk.Stack {
         architecture: lambda.Architecture.X86_64,
         ephemeralStorageSize: cdk.Size.gibibytes(2),
         environment: lambdaEnvs,
+        vpc,
+        vpcSubnets: {
+          subnets: vpc.privateSubnets,
+        },
       }
     );
 

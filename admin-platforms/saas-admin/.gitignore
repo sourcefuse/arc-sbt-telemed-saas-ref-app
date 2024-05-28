@@ -41,3 +41,6 @@ _static
 
 *.js
 *.d.ts
+!features.js
+!next.config.js
+!next-env.d.ts

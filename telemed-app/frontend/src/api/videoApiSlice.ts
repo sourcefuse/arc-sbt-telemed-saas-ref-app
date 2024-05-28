@@ -1,4 +1,3 @@
-import { getTenantSlug } from "../Helpers/utils";
 import { apiSlice } from "../redux/apiSlice";
 
 export type MeetingLink = {
@@ -18,9 +17,6 @@ export const videoApiSlice = apiSlice.injectEndpoints({
     >({
       query: ({ url }) => ({
         url: url,
-        params: {
-          tenantSlug: getTenantSlug(),
-        },
         method: "POST",
         body: {},
       }),

@@ -1,17 +1,18 @@
 {
-  "name": "telemed-video-migration",
+  "type": "commonjs",
+  "name": "video-service-migrations",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "private": true,
+  "main": "index.lambda.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
+  "description": "",
   "dependencies": {
+    "@aws-sdk/rds-signer": "^3.577.0",
     "db-migrate": "^0.11.13",
-    "db-migrate-pg": "^1.2.2"
+    "db-migrate-pg": "^1.2.2",
+    "pg": "^8.11.5"
   }
 }

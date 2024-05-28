@@ -22,9 +22,6 @@ export const authApiSlice = apiSlice.injectEndpoints({
     logout: builder.mutation({
       query: (refreshToken: string | null) => ({
         url: "/logout",
-        params: {
-          tenantSlug: getTenantSlug(),
-        },
         method: "POST",
         body: { refreshToken },
       }),

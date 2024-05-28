@@ -1,4 +1,5 @@
 import {APIGatewayEvent, APIGatewayProxyEvent, Context} from 'aws-lambda';
+import {getSecretValue} from './config';
 
 const serverlessExpress = require('@vendia/serverless-express');
 
@@ -25,7 +26,8 @@ export const handler = async (event: APIGatewayEvent, context: Context) => {
   if (serverlessApp) {
     return serverlessApp(event, context);
   }
-  // let secret=await getSecretValue();
-  // Object.assign(process.env,secret);
+  const secret = await getSecretValue();
+  Object.assign(process.env, secret);
+
   return setup(event, context);
 };

@@ -9,7 +9,20 @@ export class CustomDatasourceIdentifierProvider
 
   value(): DatasourceIdentifierFn {
     return async (requestCtx: AnyObject) => {
-      console.log('query', requestCtx.request.query);
+      // console.log(requestCtx.request);
+      const authorizationHeader = requestCtx.request.headers['authorization'];
+      if (authorizationHeader) {
+        const token = authorizationHeader.replace('Bearer ', '');
+        if (token) {
+          // console.log('Token', token);
+          const payload = JSON.parse(
+            Buffer.from(token.split('.')[1], 'base64').toString(),
+          );
+          if (payload?.tenantId) {
+            return {id: payload?.tenantId};
+          }
+        }
+      }
       const tenantSlug = requestCtx.request.query['tenantSlug'] as string;
       return !tenantSlug ? null : {id: tenantSlug};
     };

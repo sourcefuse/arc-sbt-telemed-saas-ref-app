@@ -1,3 +1,5 @@
+import {getSecretValue} from './config';
+
 export * from './application';
 
 const PORT = 3000;
@@ -34,8 +36,19 @@ if (require.main === module) {
     },
   };
 
-  main(config).catch(err => {
-    console.error('Cannot start the application.', err); // NOSONAR
-    process.exit(1);
-  });
+  getSecretValue()
+    .then(res => {
+      Object.assign(process.env, res);
+      main(config).catch(err => {
+        console.error('Cannot start the application.', err); // NOSONAR
+        process.exit(1);
+      });
+    })
+    .catch(err => {
+      console.error(
+        'Something went wrong while fetching the secrets from secrets manager.',
+        err,
+      );
+      process.exit(1);
+    });
 }

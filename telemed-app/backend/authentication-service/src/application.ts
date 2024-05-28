@@ -28,6 +28,7 @@ import {
 import {CustomDatasourceIdentifierProvider} from './providers/custom-ds-id.provider';
 import {CustomDatasourceProvider} from './providers/custom-ds.provider';
 import {MySequence} from './sequence';
+import {CustomJwtPayloadProvider} from './providers/jwt-payload.provider';
 
 export {ApplicationConfig};
 
@@ -95,6 +96,11 @@ export class AuthenticationServiceApplication extends BootMixin(
     ).toProvider(CustomDatasourceIdentifierProvider);
 
     this.component(AuthenticationServiceComponent);
+
+    this.bind(AuthServiceBindings.JWTPayloadProvider).toProvider(
+      CustomJwtPayloadProvider,
+    );
+
     this.sequence(MySequence);
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here

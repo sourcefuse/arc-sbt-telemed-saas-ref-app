@@ -3,6 +3,9 @@ cd $PROJECT_ROOT
 cd ./telemed-app/frontend
 npm install
 
+SITE_TITLE="${SITE_TITLE:-the Telemed App}"
+
+
 ## Set environment variables
 export VITE_CLIENT_ID="webapp"
 export VITE_AUTH_API_BASE_URL="https://$SBT_OUTPUT_AUTH_SERVICE_URL"
@@ -10,10 +13,10 @@ export VITE_NOTIFICATION_API_BASE_URL="https://$SBT_OUTPUT_NOTIFICATION_SERVICE_
 export VITE_VIDEO_API_BASE_URL="https://$SBT_OUTPUT_VIDEO_SERVICE_URL"
 export VITE_PUBNUB_PUBLISH_KEY="$APP_PARAM_PUBNUB_PUBLISH_KEY"
 export VITE_PUBNUB_SUBSCRIBE_KEY="$APP_PARAM_PUBNUB_SUBSCRIBE_KEY"
-export VITE_NOTIFICATION_CHANNEL_UUID="59e3dc79-cdbe-4225-ad1b-309d2a87084b" # any random uuid can be used
-export VITE_CHAT_CHANNEL_UUID="1a95a1a9-5779-4966-8058-6655c63c5119" # any random uuid can be used
+export VITE_NOTIFICATION_CHANNEL_UUID="59e3dc79-cdbe-4225-ad1b-309d2a87084b"
+export VITE_CHAT_CHANNEL_UUID="1a95a1a9-5779-4966-8058-6655c63c5119"
 export VITE_VONAGE_API_KEY="$APP_PARAM_VONAGE_API_KEY"
-export VITE_LOGIN_TITLE="Welcome to the Telemed App"
+export VITE_LOGIN_TITLE="Welcome to $SITE_TITLE"
 
 npm run build
 
