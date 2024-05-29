@@ -23,7 +23,6 @@ export function Provider({ children }: { children: ReactNode }) {
   const initialize = useCallback(async () => {
     try {
       const authSession = await fetchAuthSession();
-      console.log(authSession);
       const idToken = authSession?.tokens?.idToken?.toString();
       if (idToken) {
         setAxiosAuthToken(idToken);
@@ -64,45 +63,6 @@ export function Provider({ children }: { children: ReactNode }) {
     initialize();
   }, [initialize]);
 
-  /* const login = useCallback(async (email: string, password: string) => {
-    const response = await axios.post('/auth/admin-login', {
-      email,
-      password,
-    });
-    const { accessToken, user } = response.data;
-
-    setSession(accessToken);
-
-    dispatch({
-      type: Action.LOGIN,
-      payload: {
-        user,
-      },
-    });
-  }, []);
-
-  const register = useCallback(
-    async (email: string, password: string, firstName: string, lastName: string) => {
-      const response = await axios.post('/api/account/register', {
-        email,
-        password,
-        firstName,
-        lastName,
-      });
-      const { accessToken, user } = response.data;
-
-      localStorage.setItem('accessToken', accessToken);
-
-      dispatch({
-        type: Action.REGISTER,
-        payload: {
-          user,
-        },
-      });
-    },
-    []
-  ); */
-
   // LOGOUT
   const logout = useCallback(() => {
     signOut();
@@ -118,17 +78,9 @@ export function Provider({ children }: { children: ReactNode }) {
       isAuthenticated: state.isAuthenticated,
       user: state.user,
       session: state.session,
-      // login,
-      // register,
       logout,
     }),
-    [
-      state.isAuthenticated,
-      state.isInitialized,
-      state.user,
-      state.session,
-      logout /*  login, register */,
-    ]
+    [state.isAuthenticated, state.isInitialized, state.user, state.session, logout]
   );
 
   if (!state.isInitialized) {

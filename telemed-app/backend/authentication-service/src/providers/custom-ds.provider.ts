@@ -21,7 +21,6 @@ export class CustomDatasourceProvider
             const isTenantId = datasourceIdentifier.id.match(
               /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
             );
-            console.log('identifier id', datasourceIdentifier.id);
             if (isTenantId) {
               // tenant-id
               const databaseConfig = await this.tenantConfigRepo.findOne({
@@ -34,7 +33,6 @@ export class CustomDatasourceProvider
                 dbName = (
                   databaseConfig?.configValue as {authentication?: string}
                 )?.['authentication'];
-                console.log('tenant auth db', dbName);
               }
             } else {
               dbName = `authentication-service-${datasourceIdentifier.id}`;

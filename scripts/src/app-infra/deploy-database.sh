@@ -1,5 +1,5 @@
 cd $PROJECT_ROOT
-cd ./telemed-app/database-cdk
+cd ./telemed-app/scripts/database-cdk
 npm install
 DB_STACK_NAME=$APP_PARAM_DB_STACK_NAME VPC_ID=$SBT_OUTPUT_VPC_ID npx cdk deploy --all --require-approval never
 

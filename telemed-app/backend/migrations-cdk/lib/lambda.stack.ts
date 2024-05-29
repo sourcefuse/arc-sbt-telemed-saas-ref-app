@@ -19,7 +19,6 @@ export class LambdaStack extends cdk.Stack {
     super(scope, id, props);
     const codeDirectory = props.absoluteCodePath;
     this.vpcId = props.vpcId;
-    console.log("vpcId", this.vpcId);
     this.dbSecretArn = props.dbSecretArn;
 
     // Create the Lambda function

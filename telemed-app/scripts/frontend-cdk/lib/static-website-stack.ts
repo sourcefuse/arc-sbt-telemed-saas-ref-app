@@ -13,7 +13,9 @@ export interface StaticWebsiteProps extends cdk.StackProps {
   customDomain: string;
   customDomainWildCard: string;
   customDomainCertArn: string;
+  buildPath: string;
 }
+
 export class StaticWebsiteStack extends cdk.Stack {
   public readonly distributionDomainName: cdk.CfnOutput;
   public readonly customDomainName: cdk.CfnOutput;
@@ -39,20 +41,12 @@ export class StaticWebsiteStack extends cdk.Stack {
       websiteErrorDocument: "404.html",
     });
 
-    const staticFilesDirectory = path.join(
-      __dirname,
-      "..",
-      "..",
-      "frontend",
-      "dist"
-    );
-
     // Upload the local build files to the S3 bucket
     const deployment = new s3Deployment.BucketDeployment(
       this,
       "bucket-deployment",
       {
-        sources: [s3Deployment.Source.asset(staticFilesDirectory)],
+        sources: [s3Deployment.Source.asset(path.resolve(props.buildPath))],
         destinationBucket: bucket,
       }
     );

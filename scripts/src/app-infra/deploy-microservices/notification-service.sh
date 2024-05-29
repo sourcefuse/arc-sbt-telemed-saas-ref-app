@@ -28,7 +28,7 @@ cd ./telemed-app/backend/notification-service
 export SOURCE_CODE_PATH=$PWD # used in cdk to build docker image
 
 cd $PROJECT_ROOT
-cd ./telemed-app/backend/cdk
+cd ./telemed-app/scripts/microservices-cdk
 npm install
 
 export STACK_NAME=$APP_PARAM_NOTIFICATION_SERVICE_STACK_NAME

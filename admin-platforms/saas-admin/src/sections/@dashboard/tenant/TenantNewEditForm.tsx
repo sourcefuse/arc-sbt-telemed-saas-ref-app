@@ -126,14 +126,7 @@ export default function TenantNewEditForm({ isEdit = false, currentTenant }: Pro
       };
       if (isEdit && currentTenant) {
         enqueueSnackbar('Not Implemented!');
-        /* patchTenant(currentTenant.tenantId, requestBody)
-          .then(() => {
-            enqueueSnackbar('Updated Successfully!');
-            push(PATH_DASHBOARD.tenants.root);
-          })
-          .catch(catchError); */
       } else {
-        console.log(requestBody);
         const created = await createTenant(requestBody).catch(catchError);
         if (created) {
           push(PATH_DASHBOARD.tenants.root);

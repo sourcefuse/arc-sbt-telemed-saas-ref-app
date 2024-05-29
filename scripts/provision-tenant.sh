@@ -167,6 +167,8 @@ if [[ $TENANT_TIER == "STANDARD" ]]; then
     # just add the tenant config in the master db
     APP_PARAM_AUTH_SERVICE_DB_NAME=$APP_PARAM_AUTH_SERVICE_POOLED_DB_NAME
     ADD_USERS="false"
+    ADD_WEB_APP_CLIENT="false"
+    ADD_ROLES="false"
     TENANT_KEY=$TENANT_SLUG
     source $PROJECT_ROOT/scripts/src/app-infra/deploy-microservices/authentication-service-migrations.sh
 

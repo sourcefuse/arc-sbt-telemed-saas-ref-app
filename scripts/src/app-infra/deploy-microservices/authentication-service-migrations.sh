@@ -77,3 +77,8 @@ aws lambda invoke --function-name $SBT_OUTPUT_AUTH_DB_MIGRATION_FUNCTION_NAME --
 
 
 unset STACK_NAME
+unset SKIP_IF_TENANT_EXISTS
+unset ADD_WEB_APP_CLIENT
+unset ADD_ROLES
+unset ADD_TENANT_CONFIG
+unset ADD_USERS

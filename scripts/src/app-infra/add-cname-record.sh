@@ -1,5 +1,5 @@
 cd $PROJECT_ROOT
-cd ./telemed-app/route53-cdk
+cd ./telemed-app/scripts/route53-cdk
 
 npm install
 

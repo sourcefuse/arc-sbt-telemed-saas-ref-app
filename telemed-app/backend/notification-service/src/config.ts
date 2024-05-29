@@ -36,7 +36,6 @@ export async function getSecretValue(): Promise<SecretEnv> {
     port: parseInt(secret.DB_PORT),
     username: secret.DB_USER,
   });
-  console.log('Final secret', secret);
   return secret;
 }
 

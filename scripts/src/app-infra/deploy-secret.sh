@@ -1,5 +1,5 @@
 cd $PROJECT_ROOT
-cd ./telemed-app/secret-manager-cdk
+cd ./telemed-app/scripts/secret-manager-cdk
 npm install
 
 export STACK_NAME=$STACK_NAME

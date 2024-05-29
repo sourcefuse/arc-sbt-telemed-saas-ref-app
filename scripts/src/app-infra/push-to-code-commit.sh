@@ -1,6 +1,6 @@
-if ! aws codecommit get-repository --repository-name $CODE_COMMIT_REPOSITORY_NAME; then
-  CREATE_REPO=$(aws codecommit create-repository --repository-name $CODE_COMMIT_REPOSITORY_NAME --repository-description $CODE_COMMIT_REPOSITORY_DESCRIPTION)
-  echo "$CREATE_REPO"
+if ! aws codecommit get-repository --repository-name $CODE_COMMIT_REPOSITORY_NAME --query "repositories[0]" --output text 2>/dev/null; then
+  CREATE_REPO=$(aws codecommit create-repository --repository-name $CODE_COMMIT_REPOSITORY_NAME --repository-description "$CODE_COMMIT_REPOSITORY_DESCRIPTION")
+  echo "Created Repository: $CREATE_REPO"
 fi
 
 REPO_URL="codecommit::${REGION}://$CODE_COMMIT_REPOSITORY_NAME"

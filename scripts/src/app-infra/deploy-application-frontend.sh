@@ -20,9 +20,12 @@ export VITE_LOGIN_TITLE="Welcome to $SITE_TITLE"
 
 npm run build
 
+cd ./dist
+export BUILD_PATH=$PWD
+
 # Step 2. Deploy using CDK
 cd $PROJECT_ROOT
-cd ./telemed-app/frontend-cdk
+cd ./telemed-app/scripts/frontend-cdk
 npm install
 
 export STACK_NAME=$APP_PARAM_FRONTEND_STACK_NAME

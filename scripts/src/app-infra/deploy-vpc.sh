@@ -1,5 +1,5 @@
 cd $PROJECT_ROOT
-cd ./telemed-app/vpc-cdk
+cd ./telemed-app/scripts/vpc-cdk
 npm install
 STACK_NAME=$APP_PARAM_VPC_STACK_NAME CIDR_BLOCK=$APP_PARAM_VPC_CIDR npx cdk deploy --all --require-approval never
 

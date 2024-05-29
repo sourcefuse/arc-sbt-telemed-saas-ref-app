@@ -162,7 +162,8 @@ export default function TenantListPage() {
   };
 
   const handleDeleteRow = (id: string) => {
-    deleteTenant(id)
+    enqueueSnackbar('Deleting is disabled in this example.', { variant: 'info' });
+    /* deleteTenant(id)
       .then((message) => {
         enqueueSnackbar(message);
       })
@@ -172,13 +173,7 @@ export default function TenantListPage() {
       .finally(() => {
         refreshTenants();
         setSelected([]);
-      });
-
-    /* if (page > 0) {
-      if (dataInPage.length < 2) {
-        setPage(page - 1);
-      }
-    } */
+      }); */
   };
 
   const handleDeleteRows = (selectedRows: string[]) => {
