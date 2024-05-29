@@ -1,10 +1,21 @@
-if [[ -z "$SYSTEM_ADMIN_EMAIL" ]]; then
-    echo "System admin email is required."
-    exit 1
-fi
-if [[ -z "$CODE_COMMIT_REPOSITORY_NAME" ]]; then
-    echo "Code commit repository name is required.."
-    exit 1
-fi
+required_vars=(
+    SYSTEM_ADMIN_EMAIL
+    CODE_COMMIT_REPOSITORY_NAME
+    STACK_NAME_PREFIX
+    APP_PARAM_HOSTED_ZONE_NAME
+    APP_PARAM_CUSTOM_DOMAIN_CERT_ARN
+    APP_PARAM_VPC_CIDR
+    APP_PARAM_VONAGE_API_KEY
+    APP_PARAM_VONAGE_API_SECRET
+    APP_PARAM_PUBNUB_SUBSCRIBE_KEY
+    APP_PARAM_PUBNUB_PUBLISH_KEY
+    APP_PARAM_PUBNUB_SECRET_KEY
+    APP_PARAM_JWT_SECRET
+)
 
-# TODO: validate app sepcific params
+for var in "${required_vars[@]}"; do
+    if [[ -z "${!var}" ]]; then
+        echo "${var} is required."
+        exit 1
+    fi
+done

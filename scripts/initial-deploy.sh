@@ -9,9 +9,10 @@ fi
 ####### Set Environment Variables ############
 ##############################################
 
-source $PROJECT_ROOT/scripts/env.sh
 
 PROJECT_ROOT=$PWD
+source $PROJECT_ROOT/scripts/env.sh
+
 REGION=$(aws configure get region)
 STACK_NAME_PREFIX=$(echo "$SAAS_CONFIG_SECRET_VALUE" | jq -r '.cloudformationStackPrefix')
 
@@ -83,8 +84,6 @@ source $PROJECT_ROOT/scripts/src/app-infra/push-to-code-commit.sh
 # Deploy SBT Stacks
 source $PROJECT_ROOT/scripts/src/app-infra/deploy-sbt-stacks.sh
 
-exit 0
-
 # Deploy SaaS Admin UI
 source $PROJECT_ROOT/scripts/src/app-infra/deploy-saas-admin-ui.sh
 
@@ -117,7 +116,7 @@ source $PROJECT_ROOT/scripts/src/app-infra/deploy-application-frontend.sh
 
 ###############################################################################
 # SaaS Deploy Complete
-echo "The Saas App Has Been Deployed Successfully! ✅"
+echo "The SaaS App Has Been Deployed Successfully! ✅"
 echo "SaaS Admin: $SBT_OUTPUT_SAAS_ADMIN_APP_URL"
 echo "Pooled Telemedicine App: $SBT_OUTPUT_POOLED_FRONTEND_APP_URL"
 ###############################################################################

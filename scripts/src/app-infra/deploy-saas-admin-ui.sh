@@ -8,14 +8,6 @@ export NEXT_PUBLIC_API_HOST=$SBT_OUTPUT_API_GW_URL
 export NEXT_PUBLIC_COGNITO_USER_POOL_CLIENT_ID=$(echo "$SBT_OUTPUT_IDP_DETAILS" | jq -r '.idp.clientId')
 export NEXT_PUBLIC_COGNITO_USER_POOL_ID=$(echo "$SBT_OUTPUT_IDP_DETAILS" | jq -r '.idp.userPoolId')
 
-### TODO: remove before commit, saving these variables in .env is just for debugging purposes
-cat <<EOF > .env
-NEXT_PUBLIC_SITE_TITLE='$NEXT_PUBLIC_SITE_TITLE'
-NEXT_PUBLIC_API_HOST="$NEXT_PUBLIC_API_HOST"
-NEXT_PUBLIC_COGNITO_USER_POOL_CLIENT_ID="$NEXT_PUBLIC_COGNITO_USER_POOL_CLIENT_ID"
-NEXT_PUBLIC_COGNITO_USER_POOL_ID="$NEXT_PUBLIC_COGNITO_USER_POOL_ID"
-EOF
-
 ### Build and export static version
 npm run export
 
