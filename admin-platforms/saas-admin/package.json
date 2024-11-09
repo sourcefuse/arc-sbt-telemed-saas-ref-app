@@ -16,7 +16,7 @@
     "re-build": "rm -rf .next .swc _static node_modules && yarn install && yarn build"
   },
   "dependencies": {
-    "@aws-amplify/ui-react": "^6.1.6",
+    "@aws-amplify/ui-react": "^6.2.0",
     "@emotion/cache": "^11.10.5",
     "@emotion/react": "^11.10.5",
     "@emotion/server": "^11.10.0",
